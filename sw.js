@@ -1,4 +1,4 @@
-var cacheUrls = [
+let cacheUrls = [
     '/',
     '/src/css/styles.css',
     '/src/main.js',
@@ -16,5 +16,16 @@ self.addEventListener('install', (e)=>{
 });
 
 self.addEventListener('fetch', (event)=>{
-    caches.match(event.request);
+    event.respondWith(
+    caches.match(event.request)
+      .then(function(response) {
+        // Cache hit - return response
+        if (response) {
+          return response;
+        }
+
+        return fetch(event.request);
+      }
+    )
+  );
 });
