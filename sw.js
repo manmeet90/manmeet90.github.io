@@ -2,7 +2,8 @@ var cacheUrls = [
     '/',
     '/src/css/styles.css',
     '/src/main.js',
-    '/src/libs/*'
+    '/src/libs/require/require.js',
+    '/src/libs/text/text.js',
 ];
 self.addEventListener('install', (e)=>{
     e.waitUntil(
