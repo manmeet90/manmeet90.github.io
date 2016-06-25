@@ -5,5 +5,19 @@
     </head>
     <body>
         <h1>Manmeet Gupta</h1>
+        <div id="main">
+
+        </div>
+        <script>
+            if(navigator.serviceWorker){
+                navigator.serviceWorker.register('sw.js');
+            }
+        </script>
+        <script>
+            var require = {
+                deps:['src/main']
+            };
+        </script>
+        <script async src="src/libs/require/require.js"></script>
     </body>
 </html>
