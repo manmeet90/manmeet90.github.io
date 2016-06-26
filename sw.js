@@ -1,13 +1,17 @@
 let cacheUrls = [
-    '/',
+    '/index.html',
     '/src/css/styles.css',
     '/src/main.js',
     '/src/libs/require/require.js',
     '/src/libs/text/text.js',
+    '/src/js/HomeView.js'
 ];
+
+let CACHE_NAME = 'caches-v4';
+
 self.addEventListener('install', (e)=>{
     e.waitUntil(
-        caches.open('caches-v1')
+        caches.open(CACHE_NAME)
         .then((cache)=>{
             return cache.addAll(cacheUrls);
         })
@@ -17,15 +21,40 @@ self.addEventListener('install', (e)=>{
 
 self.addEventListener('fetch', (event)=>{
     event.respondWith(
-    caches.match(event.request)
-      .then(function(response) {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
+        caches.open(CACHE_NAME).then((cache)=>{
+            return cache.match(event.request)
+            .then((response)=>{
+                let fetchPromise = fetch(event.request)
+                .then((networkResponse)=>{
+                    if(networkResponse.ok){
+                        cache.put(event.request, networkResponse.clone());
+                        return networkResponse;
+                    }else{
+                        return new Response("You are offline!");
+                    }
+                }).catch((why)=>{
+                    console.log(why);
+                    return new Response("You are offline!");
+                });
+                return response || fetchPromise;
+            });
+        })
+    );
+});
 
-        return fetch(event.request);
-      }
-    )
+self.addEventListener('activate', function(event) {
+
+  var cacheWhitelist = [CACHE_NAME];
+
+  event.waitUntil(
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames.map(function(cacheName) {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
   );
 });
