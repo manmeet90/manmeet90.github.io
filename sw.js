@@ -4,10 +4,11 @@ let cacheUrls = [
     '/src/main.js',
     '/src/libs/require/require.js',
     '/src/libs/text/text.js',
-    '/src/js/HomeView.js'
+    '/src/libs/path/path.js',
+    '/src/js/Router.js'
 ];
 
-let CACHE_NAME = 'caches-v4';
+let CACHE_NAME = 'caches-v5';
 
 self.addEventListener('install', (e)=>{
     e.waitUntil(

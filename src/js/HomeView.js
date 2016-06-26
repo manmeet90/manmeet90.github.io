@@ -1,5 +1,5 @@
-define(["text!../views/homeView.html","text!../views/userView.html"], 
-(tmplhomeView, tmpluserView)=>{
+define(["text!../views/homeView.html"], 
+(tmplhomeView)=>{
     'use strict';
     class HomeView{
         constructor(){
@@ -8,9 +8,6 @@ define(["text!../views/homeView.html","text!../views/userView.html"],
 
         render(){
             document.querySelector(this.rootEl).innerHTML = tmplhomeView;
-            document.querySelector('#btn').addEventListener('click', function (e) {
-                document.querySelector(this.rootEl).innerHTML = tmpluserView;
-            }.bind(this), false);
         }
     }
 
