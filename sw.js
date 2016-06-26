@@ -25,7 +25,9 @@ self.addEventListener('fetch', (event)=>{
         caches.open(CACHE_NAME).then((cache)=>{
             return cache.match(event.request)
             .then((response)=>{
-                let fetchPromise = fetch(event.request)
+                let fetchPromise = fetch(event.request,{
+                    'no-cors':true
+                })
                 .then((networkResponse)=>{
                     if(networkResponse.ok){
                         cache.put(event.request, networkResponse.clone());
